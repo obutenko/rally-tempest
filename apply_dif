@@ -1,8 +1,8 @@
 #!/bin/bash -xe
 get_patch="rm -r /root/*.diff && apt-get install git unzip -y && wget https://review.openstack.org/changes/372497/revisions/52070ecdaead24b2f677cfc985d316fc3d279539/patch?zip && unzip patch?zip"
 for i in $(fuel node |grep controller |awk {'print$1'}); do ssh node-$i $get_patch; done
-packages_dir="/root/*.diff /usr/lib/python2.7/dist-packages"
-copy_and_apply="cp $packages_dir && git apply $packages_dir/*.diff"
+packages_dir="/usr/lib/python2.7/dist-packages"
+copy_and_apply="cp *.diff $packages_dir && cd $packages_dir && git apply *.diff"
 for i in $(fuel node |grep controller |awk {'print$1'}); do ssh node-$i $copy_and_apply; done
 reload="service apache2 reload"
 for i in $(fuel node |grep controller |awk {'print$1'}); do ssh node-$i $reload; done
