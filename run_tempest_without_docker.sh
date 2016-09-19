@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 apt-get install -y git
-rm -rf rally .rally log.log
+rm -rf rally .rally
 git clone https://github.com/openstack/rally.git
 cd rally
 git checkout tags/0.6.0
@@ -37,9 +37,9 @@ rally verify showconfig
 wget https://raw.githubusercontent.com/Mirantis/mos-ci-deployment-scripts/master/jenkins-job-builder/shell_scripts/skip_ceph.list
 wget https://raw.githubusercontent.com/Mirantis/mos-ci-deployment-scripts/master/jenkins-job-builder/shell_scripts/skip_lvm.list
 if [ $storage_protocol == 'ceph' ]; then
-    source $CDIR/openrc && rally verify start --regex tempest.api.baremetal --skip-list skip_ceph.list > /root/rally/log.log
+    source $CDIR/openrc && rally verify start --skip-list skip_ceph.list > /root/rally/log.log
 else
-    source $CDIR/openrc && rally verify start --regex tempest.api.baremetal --skip-list skip_lvm.list > /root/rally/log.log
+    source $CDIR/openrc && rally verify start --skip-list skip_lvm.list > /root/rally/log.log
 fi
 
 rally verify results --json --output-file output.json
