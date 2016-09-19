@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 apt-get install -y git
-rm -rf rally
+rm -rf rally .rally log.log
 git clone https://github.com/openstack/rally.git
 cd rally
 git checkout tags/0.6.0
@@ -23,19 +23,26 @@ check_ceph=$(cat /etc/cinder/cinder.conf |grep '\[RBD-backend\]' | wc -l)
 if [ ${check_ceph} == '1' ]; then
     storage_protocol="ceph"
 fi
+
+NOVA_FLTR=$(sed -n '/scheduler_default_filters=/p' /etc/nova/nova.conf | cut -f2 -d=)
+
+echo 'FILTERS='$NOVA_FLTR >> lvm
+echo 'FILTERS='$NOVA_FLTR >> ceph
 rally-manage db recreate
 rally deployment create --fromenv --name=tempest 
 rally verify install
 rally verify genconfig --add-options $storage_protocol 
 rally verify showconfig
 
+wget https://raw.githubusercontent.com/Mirantis/mos-ci-deployment-scripts/master/jenkins-job-builder/shell_scripts/skip_ceph.list
+wget https://raw.githubusercontent.com/Mirantis/mos-ci-deployment-scripts/master/jenkins-job-builder/shell_scripts/skip_lvm.list
 if [ $storage_protocol == 'ceph' ]; then
-    wget https://raw.githubusercontent.com/Mirantis/mos-ci-deployment-scripts/master/jenkins-job-builder/shell_scripts/skip.list
-    source $CDIR/openrc && rally verify start --skip-list skip.list
+    source $CDIR/openrc && rally verify start --skip-list skip_ceph.list
 else
-    source $CDIR/openrc && rally verify start 
+    source $CDIR/openrc && rally verify start --skip-list skip_lvm.list
 fi
 
 rally verify results --json --output-file output.json
 rally verify results --html --output-file output.html
-git clone https://github.com/greatehop/rally_json2junit && python rally_json2junit/rally_json2junit/results_parser.py output.json
+git clone https://github.com/greatehop/rally_json2junit
+python rally_json2junit/rally_json2junit/results_parser.py output.json
