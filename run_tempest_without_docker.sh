@@ -46,7 +46,7 @@ jq ". + { \"auth_url\": \"${OS_AUTH_URL}v3/\" } + { \"admin\" : {\"username\": \
 cat /root/keystone-v3.json
 
 rally-manage db recreate
-rally deployment create --name=tempest --file=/home/rally/keystone-v3.json
+rally deployment create --name=tempest --file=/root/keystone-v3.json
 rally verify install
 rally verify genconfig --add-options $storage_protocol
 rally verify showconfig
