@@ -2,7 +2,6 @@
 
 rm -rf rally .rally /root/openrc_tempest
 cp /root/openrc /root/openrc_tempest
-
 source /root/openrc_tempest && ironic node-create -d fake
 
 apt-get install -y git
@@ -16,7 +15,14 @@ IS_TLS=$(source /root/openrc_tempest; openstack endpoint show identity 2>/dev/nu
     if [ "${IS_TLS}" ]; then
         echo "export OS_CACERT='/var/lib/astute/haproxy/public_haproxy.pem'" >> /root/openrc_tempest
     fi
+
+sed -i "s/:5000\/'/:5000\/v3\/'/" /root/openrc_tempest
+echo "export OS_PROJECT_DOMAIN_NAME='Default'" >> /root/openrc_tempest
+echo "export OS_USER_DOMAIN_NAME='Default'" >> /root/openrc_tempest
+echo "export OS_USER_DOMAIN_NAME='Default'" >> /root/openrc_tempest
 echo "export OS_IDENTITY_API_VERSION='3'" >> /root/openrc_tempest
+
+
 ./install_rally.sh -d rally-venv/ -y
 
 sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperator|g' /root/rally/rally-venv/etc/rally/rally.conf
@@ -38,23 +44,16 @@ fi
 source /root/rally/rally-venv/bin/activate
 source /root/openrc_tempest
 
-apt install -y jq
-rm -rf /root/existing-keystone-v3.json /root/keystone-v3.json
-wget -P /root/ https://raw.githubusercontent.com/openstack/rally/master/samples/deployments/existing-keystone-v3.json
-
-jq ". + { \"auth_url\": \"${OS_AUTH_URL}v3/\" } + { \"admin\" : {\"username\": \"admin\",\"password\": \"admin\", \"project_name\": \"admin\", \"project_domain_name\": \"Default\", \"user_domain_name\": \"Default\", \"admin_domain_name\": \"Default\"}}" /root/existing-keystone-v3.json > /root/keystone-v3.json
-cat /root/keystone-v3.json
-
 rally-manage db recreate
-rally deployment create --name=tempest --file=/root/keystone-v3.json
+rally deployment create --fromenv --name=tempest
 rally verify install
 rally verify genconfig --add-options $storage_protocol
 rally verify showconfig
 
 if [ $storage_protocol == 'ceph' ]; then
-    rally verify start --regex tempest.api.keystone --skip-list skip_ceph.list > /root/rally/log.log
+    rally verify start --skip-list skip_ceph.list > /root/rally/log.log
 else
-    rally verify start --regex tempest.api.keystone --skip-list skip_lvm.list > /root/rally/log.log
+    rally verify start --skip-list skip_lvm.list > /root/rally/log.log
 fi
 
 rally verify results --json --output-file output.json
