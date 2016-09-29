@@ -16,7 +16,7 @@ IS_TLS=$(source /root/openrc_tempest; openstack endpoint show identity 2>/dev/nu
     if [ "${IS_TLS}" ]; then
         echo "export OS_CACERT='/var/lib/astute/haproxy/public_haproxy.pem'" >> /root/openrc_tempest
     fi
-
+echo "export OS_IDENTITY_API_VERSION='3'" >> /root/openrc_tempest
 ./install_rally.sh -d rally-venv/ -y
 
 sed -i 's|#swift_operator_role = Member|swift_operator_role = SwiftOperator|g' /root/rally/rally-venv/etc/rally/rally.conf
