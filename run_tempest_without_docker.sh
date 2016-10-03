@@ -25,7 +25,7 @@ echo "export OS_USER_DOMAIN_NAME='Default'" >> /root/openrc_tempest
 echo "export OS_IDENTITY_API_VERSION='3'" >> /root/openrc_tempest
 
 ### 
-echo "pycparser==2.13" >> requirements.txt
+echo "pycparser!=2.14" >> requirements.txt
 ###
 
 ./install_rally.sh -d rally-venv/ -y
