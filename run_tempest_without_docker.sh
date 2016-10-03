@@ -50,9 +50,9 @@ rally verify genconfig --add-options $storage_protocol
 rally verify showconfig
 
 if [ $storage_protocol == 'ceph' ]; then
-    rally verify start --regex tempest.api.baremetal --skip-list skip_ceph.list > /root/rally/log.log
+    rally verify start --skip-list skip_ceph.list > /root/rally/log.log
 else
-    rally verify start --regex tempest.api.baremetal --skip-list skip_lvm.list > /root/rally/log.log
+    rally verify start --skip-list skip_lvm.list > /root/rally/log.log
 fi
 
 rally verify results --json --output-file output.json
