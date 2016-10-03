@@ -9,10 +9,8 @@ set -e
 
 apt-get install -y git
 
-git clone https://github.com/openstack/rally.git
+git clone https://github.com/obutenko/rally.git
 cd rally
-git checkout tags/0.6.0
-CDIR=$(pwd)
 
 IS_TLS=$(source /root/openrc_tempest; openstack endpoint show identity 2>/dev/null | awk '/https/')
     if [ "${IS_TLS}" ]; then
@@ -23,10 +21,6 @@ sed -i "s/:5000\/'/:5000\/v3\/'/" /root/openrc_tempest
 echo "export OS_PROJECT_DOMAIN_NAME='Default'" >> /root/openrc_tempest
 echo "export OS_USER_DOMAIN_NAME='Default'" >> /root/openrc_tempest
 echo "export OS_IDENTITY_API_VERSION='3'" >> /root/openrc_tempest
-
-### 
-echo "pycparser!=2.14" >> requirements.txt
-###
 
 ./install_rally.sh -d rally-venv/ -y
 
