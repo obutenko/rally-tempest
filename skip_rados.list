@@ -55,4 +55,21 @@ tempest.scenario.test_object_storage_basic_ops.TestObjectStorageBasicOps.test_sw
 tempest.scenario.test_object_storage_basic_ops.TestObjectStorageBasicOps.test_swift_basic_ops[id-b920faf1-7b8a-4657-b9fe-9c4512bfb381,object_storage]
 tempest.api.network.test_networks.NetworksTest.test_external_network_visibility[id-af774677-42a9-4e4b-bb58-16fe6a5bc1ec,smoke]
 tempest.api.network.admin.test_negative_quotas.QuotasNegativeTest.test_network_quota_exceeding[id-644f4e1b-1bf9-4af0-9fd8-eb56ac0f51cf]
+tempest.api.network.admin.test_agent_management.AgentManagementTestJSON.test_list_agent[id-9c80f04d-11f3-44a4-8738-ed2f879b0ff4]
+tempest.api.network.admin.test_agent_management.AgentManagementTestJSON.test_list_agents_non_admin[id-e335be47-b9a1-46fd-be30-0874c0b751e6]
+tempest.api.network.admin.test_agent_management.AgentManagementTestJSON.test_show_agent[id-869bc8e8-0fda-4a30-9b71-f8a7cf58ca9f]
+tempest.api.network.admin.test_agent_management.AgentManagementTestJSON.test_update_agent_description[id-68a94a14-1243-46e6-83bf-157627e31556]
+tempest.api.network.admin.test_agent_management.AgentManagementTestJSON.test_update_agent_status[id-371dfc5b-55b9-4cb5-ac82-c40eadaac941]
+tempest.api.network.admin.test_external_network_extension.ExternalNetworksTestJSON.test_delete_external_networks_with_floating_ip[id-82068503-2cf2-4ed4-b3be-ecb89432e4bb]
+tempest.api.network.admin.test_external_networks_negative.ExternalNetworksAdminNegativeTestJSON.test_create_port_with_precreated_floatingip_as_fixed_ip[id-d402ae6c-0be0-4d8e-833b-a738895d98d0,negative]
+tempest.api.network.test_allowed_address_pair.AllowedAddressPairTestJSON.test_update_port_with_cidr_address_pair[id-4d6d178f-34f6-4bff-a01c-0a2f8fe909e4]
+tempest.api.network.test_networks.NetworksTest.test_update_subnet_gw_dns_host_routes_dhcp[id-3d3852eb-3009-49ec-97ac-5ce83b73010a]
+tempest.api.network.test_ports.PortsAdminExtendedAttrsTestJSON.test_show_port_binding_ext_attr[id-b54ac0ff-35fc-4c79-9ca3-c7dbd4ea4f13]
+
+
+
+
+
+
+
 
