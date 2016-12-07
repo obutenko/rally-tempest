@@ -65,11 +65,3 @@ tempest.api.network.admin.test_external_networks_negative.ExternalNetworksAdminN
 tempest.api.network.test_allowed_address_pair.AllowedAddressPairTestJSON.test_update_port_with_cidr_address_pair[id-4d6d178f-34f6-4bff-a01c-0a2f8fe909e4]
 tempest.api.network.test_networks.NetworksTest.test_update_subnet_gw_dns_host_routes_dhcp[id-3d3852eb-3009-49ec-97ac-5ce83b73010a]
 tempest.api.network.test_ports.PortsAdminExtendedAttrsTestJSON.test_show_port_binding_ext_attr[id-b54ac0ff-35fc-4c79-9ca3-c7dbd4ea4f13]
-
-
-
-
-
-
-
-
